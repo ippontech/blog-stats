@@ -1,0 +1,9 @@
+version: 0.1
+
+phases:
+  build:
+    commands:
+      - gradle shadowJar
+artifacts:
+  files:
+    - builds/lib/blog-stats-all.jar
