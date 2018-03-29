@@ -4,14 +4,14 @@ import com.amazonaws.services.lambda.runtime.Context
 import com.amazonaws.services.lambda.runtime.RequestHandler
 import org.apache.logging.log4j.LogManager
 
-class LambdaHandler : RequestHandler<Map<String, Object>, String> {
+class LambdaHandler : RequestHandler<Map<String, Any>, String> {
 
     private val logger = LogManager.getLogger(javaClass)
 
-    override fun handleRequest(input: Map<String, Object>, context: Context): String {
+    override fun handleRequest(input: Map<String, Any>, context: Context): String {
         logger.info("Handler called")
         updateSheet()
         logger.info("Done")
-        return "{\"success\": \"true\"}"
+        return "SUCCESS"
     }
 }
