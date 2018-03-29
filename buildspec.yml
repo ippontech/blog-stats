@@ -6,4 +6,4 @@ phases:
       - gradle shadowJar
 artifacts:
   files:
-    - builds/lib/blog-stats-all.jar
+    - build/libs/blog-stats-all.jar
