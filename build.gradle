@@ -20,6 +20,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.google.apis:google-api-services-sheets:v4-rev512-1.23.0'
     compile 'com.google.api-client:google-api-client-gson:1.23.0'
+    compile 'com.amazonaws:aws-java-sdk-s3:1.11.304'
     compile 'com.amazonaws:aws-lambda-java-log4j2:1.1.0'
 }
 
