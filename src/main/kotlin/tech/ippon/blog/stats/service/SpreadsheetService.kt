@@ -1,9 +1,8 @@
 package tech.ippon.blog.stats.service
 
-import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import com.amazonaws.services.s3.model.GetObjectRequest
+import com.amazonaws.services.s3.model.S3Object
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
@@ -13,13 +12,11 @@ import com.google.api.services.sheets.v4.model.ClearValuesRequest
 import com.google.api.services.sheets.v4.model.ValueRange
 import org.apache.logging.log4j.LogManager
 import tech.ippon.blog.stats.model.Post
+import java.io.InputStream
 
 class SpreadsheetService {
 
     private val applicationName = "Blog Stats"
-
-    private val credentialsS3Bucket: String
-    private val credentialsS3Key: String
 
     // spreadsheet IDs
     private val postsSpreadsheetId: String
@@ -32,15 +29,15 @@ class SpreadsheetService {
 
     private val logger = LogManager.getLogger(javaClass)
 
-    private val sheetsService: Sheets = getSheetsService()
+    private val sheetsService: Sheets
 
     init {
         postsSpreadsheetId = System.getenv("POSTS_SPREADSHEET_ID")
         consultantsSpreadsheetId = System.getenv("CONSULTANTS_SPREADSHEET_ID")
 
         val credentialsLocation = System.getenv("CREDENTIALS_S3_LOCATION").split(":")
-        credentialsS3Bucket = credentialsLocation[0]
-        credentialsS3Key = credentialsLocation[1]
+        val credentialsS3Object = getCredentialsFromS3(credentialsLocation[0], credentialsLocation[1])
+        sheetsService = getSheetsService(credentialsS3Object.objectContent)
     }
 
     // copies the list of consultants from the source of truth to the target sheet
@@ -88,11 +85,12 @@ class SpreadsheetService {
                 .execute()
     }
 
-    private fun getSheetsService(): Sheets {
+    private fun getCredentialsFromS3(credentialsS3Bucket: String, credentialsS3Key: String): S3Object {
         val s3Client = AmazonS3ClientBuilder.standard().build()
-        val s3Object = s3Client.getObject(GetObjectRequest(credentialsS3Bucket, credentialsS3Key))
-        val credentialsStream = s3Object.getObjectContent()
+        return s3Client.getObject(GetObjectRequest(credentialsS3Bucket, credentialsS3Key))
+    }
 
+    private fun getSheetsService(credentialsStream: InputStream): Sheets {
         val credentials = GoogleCredential
                 .fromStream(credentialsStream)
                 .createScoped(listOf(SheetsScopes.SPREADSHEETS))
