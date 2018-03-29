@@ -86,7 +86,7 @@ class SpreadsheetService {
     }
 
     private fun getCredentialsFromS3(credentialsS3Bucket: String, credentialsS3Key: String): S3Object {
-        val s3Client = AmazonS3ClientBuilder.standard().withRegion("us-east-1").build()
+        val s3Client = AmazonS3ClientBuilder.defaultClient()
         return s3Client.getObject(GetObjectRequest(credentialsS3Bucket, credentialsS3Key))
     }
 
