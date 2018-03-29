@@ -1,0 +1,28 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.31'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+sourceCompatibility = 1.8
+
+dependencies {
+    compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.31'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.google.apis:google-api-services-sheets:v4-rev512-1.23.0'
+    compile 'com.google.api-client:google-api-client-gson:1.23.0'
+    compile 'com.amazonaws:aws-lambda-java-log4j2:1.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
