@@ -4,3 +4,7 @@ phases:
   build:
     commands:
       - gradle shadowJar
+artifacts:
+  files:
+    - blog-stats-all.jar
+  base-directory: build/libs
