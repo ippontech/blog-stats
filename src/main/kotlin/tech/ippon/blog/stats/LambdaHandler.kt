@@ -11,6 +11,7 @@ class LambdaHandler : RequestHandler<Map<String, Any>, String> {
     override fun handleRequest(input: Map<String, Any>, context: Context): String {
         logger.info("Handler called")
         updateSheet()
+        sendNotification()
         logger.info("Done")
         return "SUCCESS"
     }
