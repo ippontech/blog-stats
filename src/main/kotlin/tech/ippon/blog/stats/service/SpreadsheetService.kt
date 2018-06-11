@@ -77,7 +77,7 @@ class SpreadsheetService {
 
         // inject new values
         val values = posts
-                .map { listOf(it.title, it.date, it.year(), it.author) }
+                .map { listOf(it.title, it.date ?: "", it.year(), it.author) }
                 .toList()
         sheetsService.spreadsheets().values()
                 .update(postsSpreadsheetId, "$postsSheet!A2:D", ValueRange().setValues(values))

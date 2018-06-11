@@ -7,12 +7,13 @@ import com.google.gson.reflect.TypeToken
 import org.apache.logging.log4j.LogManager
 import tech.ippon.blog.stats.model.GitFile
 import tech.ippon.blog.stats.model.Post
+import java.nio.file.Paths
 
 class PostsService {
 
     private val logger = LogManager.getLogger(javaClass)
 
-    fun loadPosts(): List<Post> {
+    fun loadPostsFromGithub(): List<Post> {
         val requestFactory = NetHttpTransport().createRequestFactory()
 
         logger.info("Loading list of posts from GitHub")
@@ -35,12 +36,27 @@ class PostsService {
         return posts
     }
 
+    fun loadPostsFromFileSystem(path: String): List<Post> {
+        val files = Paths.get(path).toFile().listFiles()
+        val posts = files.map {
+            val lines = it.readLines()
+            extractPost(lines)
+        }
+        return posts
+    }
+
     private fun extractPost(lines: List<String>): Post {
-        val title = findTitle(lines)
-        val authors = findAuthors(lines).stream()
-        val author = authors.findFirst().get()
-        val date = findDate(lines)
-        return Post(title, author, date)
+        try {
+            val title = findTitle(lines)
+            val authors = findAuthors(lines).stream()
+            val author = authors.findFirst().get()
+            val date = findDate(lines)
+            return Post(title, author, date)
+        } catch (e: Exception) {
+            val firstLines = lines.take(10).joinToString("\n")
+            logger.error("Failing parsing post: $firstLines")
+            throw Exception("Failing parsing post: $firstLines", e)
+        }
     }
 
     private fun findAuthors(lines: List<String>): List<String> {
@@ -56,10 +72,10 @@ class PostsService {
                     .map { it.trimStart('"').trimEnd('"') }
                     .first()
 
-    private fun findDate(lines: List<String>): String =
+    private fun findDate(lines: List<String>): String? =
             lines.filter { it.startsWith("date: ") }
                     .map { it.substringAfter("date: ") }
                     .map { it.replace('T', ' ') }
                     .map { it.replace(".000Z", "") }
-                    .first()
+                    .firstOrNull()
 }
