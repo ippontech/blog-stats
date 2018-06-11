@@ -5,5 +5,5 @@ data class Post(
         val author: String,
         val date: String?) {
 
-    fun year(): String = if (date == null) "" else date.substring(0, 4)
+    fun year(): String = if (date == null || date.isBlank()) "" else date.substring(0, 4)
 }
