@@ -1,0 +1,40 @@
+service: blog-stats
+
+custom: ${file(secrets.yml)}
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: java8
+  memorySize: 512
+  timeout: 30
+  stage: prod
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:GetObject"
+      Resource:
+        - "arn:aws:s3:::blog-usa/*"
+    - Effect: "Allow"
+      Action:
+        - "SNS:Publish"
+      Resource:
+        - ${self:custom.sns_topic_arn}
+
+  environment:
+    CONSULTANTS_SPREADSHEET_ID: ${self:custom.consultants_spreadsheet_id}
+    CREDENTIALS_S3_LOCATION: ${self:custom.credentials_s3_location}
+    POSTS_SPREADSHEET_ID: ${self:custom.posts_spreadsheet_id}
+    TOPIC_ARN: ${self:custom.sns_topic_arn}
+
+package:
+  artifact: build/distributions/blog-stats.zip
+
+functions:
+  process:
+    handler: tech.ippon.blog.stats.Handler
+    events:
+    - http:
+        path: blog-stats
+        method: any

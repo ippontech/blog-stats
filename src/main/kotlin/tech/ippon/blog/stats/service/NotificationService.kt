@@ -2,11 +2,11 @@ package tech.ippon.blog.stats.service
 
 import com.amazonaws.services.sns.AmazonSNSClientBuilder
 import com.amazonaws.services.sns.model.PublishRequest
-import org.apache.logging.log4j.LogManager
+import org.apache.log4j.Logger
 
 class NotificationService {
 
-    private val logger = LogManager.getLogger(javaClass)
+    private val logger = Logger.getLogger(javaClass)
 
     private val topicArn: String
 

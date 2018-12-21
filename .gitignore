@@ -1,1 +1,13 @@
-build/
+.gradle
+/build/
+/bin/
+out/
+/.settings/
+.project
+.classpath
+*.iml
+
+# Serverless directories
+.serverless
+
+secrets.yml

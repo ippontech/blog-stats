@@ -10,7 +10,7 @@ import com.google.api.services.sheets.v4.Sheets
 import com.google.api.services.sheets.v4.SheetsScopes
 import com.google.api.services.sheets.v4.model.ClearValuesRequest
 import com.google.api.services.sheets.v4.model.ValueRange
-import org.apache.logging.log4j.LogManager
+import org.apache.log4j.Logger
 import tech.ippon.blog.stats.model.Post
 import java.io.InputStream
 
@@ -27,7 +27,7 @@ class SpreadsheetService {
     private val targetConsultantsSheet = "Consultants"
     private val sourceConsultantsSheet = "Current"
 
-    private val logger = LogManager.getLogger(javaClass)
+    private val logger = Logger.getLogger(javaClass)
 
     private val sheetsService: Sheets
 

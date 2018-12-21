@@ -4,14 +4,14 @@ import com.google.api.client.http.GenericUrl
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import org.apache.logging.log4j.LogManager
+import org.apache.log4j.Logger
 import tech.ippon.blog.stats.model.GitFile
 import tech.ippon.blog.stats.model.Post
 import java.nio.file.Paths
 
 class PostsService {
 
-    private val logger = LogManager.getLogger(javaClass)
+    private val logger = Logger.getLogger(javaClass)
 
     fun loadPostsFromGithub(): List<Post> {
         val requestFactory = NetHttpTransport().createRequestFactory()
