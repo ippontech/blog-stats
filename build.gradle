@@ -34,7 +34,7 @@ dependencies {
 // Task for building the zip file for upload
 task buildZip(type: Zip) {
     // set the base name of the zip file
-    baseName = "blog-stats-serverless"
+    baseName = "blog-stats"
     from compileJava
     from processResources
     into('lib') {
