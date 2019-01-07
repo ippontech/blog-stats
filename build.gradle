@@ -11,6 +11,7 @@ apply plugin: 'java'
 apply plugin: 'kotlin'
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -25,7 +26,7 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.9.+'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.+'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.+'
-    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+"
+    compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+'
     compile 'com.google.code.gson:gson:2.8.5'
     compile 'com.google.apis:google-api-services-sheets:v4-rev20181116-1.27.0'
     compile 'com.google.api-client:google-api-client-gson:1.27.0'
@@ -34,7 +35,7 @@ dependencies {
 // Task for building the zip file for upload
 task buildZip(type: Zip) {
     // set the base name of the zip file
-    baseName = "blog-stats"
+    baseName = 'blog-stats'
     from compileJava
     from processResources
     into('lib') {
