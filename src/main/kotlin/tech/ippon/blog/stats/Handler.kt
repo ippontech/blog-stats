@@ -19,7 +19,7 @@ class Handler : RequestHandler<Map<String, Any>, ApiGatewayResponse> {
             logger.error("Processing failed", e)
             val responseBody = Response("FAILED")
             return ApiGatewayResponse.builder()
-                    .setStatusCode(200)
+                    .setStatusCode(500)
                     .setObjectBody(responseBody)
                     .build()
         }
