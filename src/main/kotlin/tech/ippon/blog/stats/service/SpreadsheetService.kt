@@ -45,7 +45,7 @@ class SpreadsheetService {
         // read the list of consultants from the other spreadsheet
         logger.info("Reading list of consultants")
         val consultants = sheetsService.spreadsheets().values()
-                .get(consultantsSpreadsheetId, "$sourceConsultantsSheet!B3:B")
+                .get(consultantsSpreadsheetId, "$sourceConsultantsSheet!B2:B")
                 .execute()
                 .getValues()
                 .flatMap { it } as List<String>
