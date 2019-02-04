@@ -77,7 +77,11 @@ class SpreadsheetService {
 
         // inject new values
         val values = posts
-                .map { listOf(it.title, it.date ?: "", it.year(), it.author) }
+                .flatMap {
+                    // one row per post/author (if an article has 3 authors, generate 3 rows)
+                    val post = it
+                    post.authors.map { listOf(post.title, post.date ?: "", post.year(), it) }
+                }
                 .toList()
         sheetsService.spreadsheets().values()
                 .update(postsSpreadsheetId, "$postsSheet!A2:D", ValueRange().setValues(values))

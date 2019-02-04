@@ -48,10 +48,9 @@ class PostsService {
     private fun extractPost(lines: List<String>): Post {
         try {
             val title = findTitle(lines)
-            val authors = findAuthors(lines).stream()
-            val author = authors.findFirst().get()
+            val authors = findAuthors(lines)
             val date = findDate(lines)
-            return Post(title, author, date)
+            return Post(title, authors, date)
         } catch (e: Exception) {
             val firstLines = lines.take(10).joinToString("\n")
             logger.error("Failing parsing post: $firstLines")
